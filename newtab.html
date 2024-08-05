@@ -11,27 +11,27 @@
     <script>
         window.onload = () => {
             function search(input) {
-  input = input.trim();
-  const searchTemplate = localStorage.getItem("engine") || "https://google.com/search?q=%s";
+                input = input.trim();
+                const searchTemplate = localStorage.getItem("engine") || "https://google.com/search?q=%s";
 
-  try {
-    return new URL(input).toString();
-  } catch (err) {
-    try {
-      const url = new URL(`http://${input}`);
-      if (url.hostname.includes(".")) {
-        return url.toString();
-      }
-      throw new Error("Invalid hostname");
-    } catch (err) {
-      return searchTemplate.replace("%s", encodeURIComponent(input));
-    }
-  }
-}
-            const input = document.getElementById("searchbar");
-            input.addEventListener("keydown", (e) => {
+                try {
+                    return new URL(input).toString();
+                } catch (err) {
+                    try {
+                        const url = new URL(`http://${input}`);
+                        if (url.hostname.includes(".")) {
+                            return url.toString();
+                        }
+                        throw new Error("Invalid hostname");
+                    } catch (err) {
+                        return searchTemplate.replace("%s", encodeURIComponent(input));
+                    }
+                }
+            }
+            const searchbar = document.getElementById("searchbar");
+            searchbar.addEventListener("keydown", (e) => {
                 if (e.key == "Enter") {
-                    const url = search(input);
+                    const url = search(searchbar.value);
                     location.href = url;
                 }
             });
