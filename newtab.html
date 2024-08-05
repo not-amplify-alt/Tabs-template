@@ -7,6 +7,36 @@
 
 <body>
     <h1>New Tab</h1>
+    <input type="text" id="seachbar" placeholder="Search Your URL Unproxied" />
+    <script>
+        window.onload = () => {
+            function search(input) {
+  input = input.trim();
+  const searchTemplate = localStorage.getItem("engine") || "https://google.com/search?q=%s";
+
+  try {
+    return new URL(input).toString();
+  } catch (err) {
+    try {
+      const url = new URL(`http://${input}`);
+      if (url.hostname.includes(".")) {
+        return url.toString();
+      }
+      throw new Error("Invalid hostname");
+    } catch (err) {
+      return searchTemplate.replace("%s", encodeURIComponent(input));
+    }
+  }
+}
+            const input = document.getElementById("searchbar");
+            input.addEventListener("keydown", (e) => {
+                if (e.key == "Enter") {
+                    const url = search(input);
+                    location.href = url;
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
